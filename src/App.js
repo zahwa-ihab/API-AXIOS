@@ -1,24 +1,20 @@
-import logo from './logo.svg';
-import './App.css';
-
+import "./App.css";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { UserToDoList } from "./UserToDoList";
 function App() {
+  const [todo, setTodo] = useState(null);
+
+  useEffect(() => {
+    axios
+      .get("https://jsonplaceholder.typicode.com/users/1/todos")
+      .then((result) => setTodo(result.data));
+  }, []); //[] only fires once when the component loads
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      {todo == null ? <h1>no data found</h1> : <UserToDoList todoList={todo} />}
+    </>
   );
 }
 
